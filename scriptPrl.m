@@ -15,7 +15,7 @@ function pavRun
 %==========================================================================
 
 sID         = input('Subject ID (1-999): ');
-WaitSecs(.1);
+
 pavDefault  = input(['======================================\n',...
     'DEFAULTS:\n',...
     '   - Language:         Nederlands\n',...
@@ -24,7 +24,7 @@ pavDefault  = input(['======================================\n',...
     '   - Run part 1 and 2: yes\n',...
     '======================================\n',...
     'Run defaults? yes(1)/no(0): ']);
-WaitSecs(.1);
+
 
 if pavDefault
     lang     = 1;
@@ -37,20 +37,20 @@ else
         'ALTERNATIVE TASK SETTINGS.\n',...
         '---------------------------------------\n']);
     lang     = input('language: ned(1)/eng(2): ');
-    WaitSecs(.1);
+    (.1);
     runInstr = input('Run(1)/skip(0) instructions? ');
-    WaitSecs(.1);
+    (.1);
     part     = input('Run script from the beginning? yes(1)/no(0): ');
-    WaitSecs(.1);
+    (.1);
     if part == 0
         part = input('Start with part 1(1) or part 2(2)? ');
-        WaitSecs(.1);
+        (.1);
     end
     dirOut   = input('Use default logfile directory(1) or specify manually(0)? ');
-    WaitSecs(.1);
+    (.1);
     if ~dirOut
         dirOut = input('Directory name for logfiles: ');
-        WaitSecs(.1);
+        (.1);
     end
 end
 
@@ -145,13 +145,13 @@ elseif strcmp(prep.par.lang, 'esp')
 	' ','(Please turn on the recordings before continuing)'};
 end
 tm.learn{part}.break(1) = disptxt(txtBreak,wd,wdw,wdh,0,0,prep.par.col.white,0,0);
-WaitSecs(2);
+(2);
 inBreak = true;
 while inBreak
     resp = KeyboardResponse(inf,true);
     if resp == prep.par.key.resume
         blackscreen;
-        WaitSecs(1);
+        (1);
         clear resp
         inBreak = false;
     end
@@ -166,7 +166,7 @@ for iPart = part:prep.par.nPart
     fprintf(logfile, 'tm.taskStart:\t\t%d   \n\n', tm.taskStart{iPart});
     for iTrigger = 1:5    
 	pavSendTrigger(prep,B,prep.par.code.startExp);
-	WaitSecs(.2)
+	(.2)
     end
     ct                  = ones(prep.par.nStim,prep.par.nResp);
 
@@ -191,7 +191,7 @@ for iPart = part:prep.par.nPart
         % stimulus offset.
         Screen('FillRect',wd,backgroundCol);
         drawfix;
-        WaitSecs('UntilTime',tm.learn{iPart}.stim(iTrial,1)+prep.par.learn.time.stim);
+        ('UntilTime',tm.learn{iPart}.stim(iTrial,1)+prep.par.learn.time.stim;
         tm.learn{iPart}.sfi(iTrial,1) = Screen('Flip', wd);
         pavSendTrigger(prep,B,prep.par.code.sfi);
         
@@ -232,7 +232,7 @@ for iPart = part:prep.par.nPart
             
             % outcome.
             wd = pavDrawStim(wd,prep,2,prep.seq.learn.stim{iPart},results,iTrial,img,[],iPart);
-            WaitSecs('UntilTime',tm.learn{iPart}.sfi(iTrial,1) + prep.par.learn.time.SFI);
+            ('UntilTime',tm.learn{iPart}.sfi(iTrial,1) + prep.par.learn.time.SFI);
             if prep.par.sound; PsychPortAudio('Start',soundhandle(c),1,0,1); end;
             tm.learn{iPart}.outcome(iTrial,1) = Screen(wd, 'Flip');
             pavSendTrigger(prep,B,prep.par.code.outcome(outcomeID));
@@ -246,7 +246,7 @@ for iPart = part:prep.par.nPart
             % ITI start.
             Screen('FillRect',wd,backgroundCol);
             drawfix;
-            WaitSecs('UntilTime',tm.learn{iPart}.stim(iTrial,1) + prep.par.learn.time.stim + ...
+            ('UntilTime',tm.learn{iPart}.stim(iTrial,1) + prep.par.learn.time.stim + ...
                 prep.par.learn.time.SFI + prep.par.learn.time.feedback);
             tm.learn{iPart}.iti(iTrial) = Screen('Flip', wd);
             pavSendTrigger(prep,B,prep.par.code.iti);
@@ -293,7 +293,7 @@ for iPart = part:prep.par.nPart
             prep,B,aborted,paused,true);
         
         % wait till end iti to start new trial.
-        WaitSecs('UntilTime',tm.taskStart{iPart} + total_time + breaktime + 3*missedCt);
+        ('UntilTime',tm.taskStart{iPart} + total_time + breaktime + 3*missedCt);
         tm.learn{iPart}.trialend(iTrial,1) = GetSecs;
         pavSendTrigger(prep,B,prep.par.code.endTrial);
         
@@ -315,7 +315,7 @@ for iPart = part:prep.par.nPart
             tm.learn{iPart}.break(iBlock+1) =  tBreak;
             pavSendTrigger(prep,B,prep.par.code.break);
             fprintf(logfile,'\ntBreak:\t\t\t%0.7g \n\n',tBreak - tm.taskStart{iPart});
-            WaitSecs(2);
+            (2);
             inBreak = true;
             while inBreak
                 resp = KeyboardResponse(inf,true);
@@ -364,14 +364,14 @@ if iPart == prep.par.nPart && iTrial > 1
     fprintf(logfile, 'tm.transferStart:\t\t%d   \n\n', tm.transferStart);
     for iTrigger = 1:5    
 	pavSendTrigger(prep,B,prep.par.code.startTrans);
-	WaitSecs(0.2)
+	(0.2)
     end
     Screen('FillRect',wd,backgroundCol);
     
     if ~aborted
         drawfix;
         Screen('Flip', wd);
-        WaitSecs(2);
+        (2);
     end
     
     % loop over trials.
@@ -434,7 +434,7 @@ if iPart == prep.par.nPart && iTrial > 1
         if aborted; break; end
         
         % Wait for end of trial.
-        WaitSecs('Untiltime',tm.trans.iti(iTrial,1) + prep.par.trans.time.ITI);
+        ('Untiltime',tm.trans.iti(iTrial,1) + prep.par.trans.time.ITI);
         tm.trans.trialend(iTrial,1) = GetSecs;
         pavSendTrigger(prep,B,prep.par.code.endTrial);
         
@@ -504,7 +504,7 @@ if iPart == prep.par.nPart && iTrial > 1
         if aborted; break; end
         
         % Wait for end of trial.
-        WaitSecs('Untiltime',tm.trans.missed.iti(iTrial,1) + prep.par.trans.time.ITI);
+        ('Untiltime',tm.trans.missed.iti(iTrial,1) + prep.par.trans.time.ITI);
         tm.trans.missed.trialend(iTrial,1) = GetSecs;
         pavSendTrigger(prep,B,prep.par.code.endTrial);
         
@@ -518,7 +518,7 @@ end % end if part == 2.
 %--------------------------------------------------------------------------
 Screen('FillRect',wd,backgroundCol);
 Screen(wd, 'Flip');
-WaitSecs(0.5);
+(0.5);
 
 % Thank the subject.
 if strcmp(prep.par.lang, 'eng')
@@ -566,7 +566,7 @@ fprintf(logfile, 'No. of neutral:\t\t%d\n',results.totN);
 fprintf(logfile, 'average RT(ms):\t\t%0.7g   \n',1000*mean(results.learn{iPart}.RT(~isnan(results.learn{iPart}.RT))));
 fprintf(logfile, 'bonus:\t\t%d   \n',results.bonus);
 
-WaitSecs(2);
+(2);
 blackscreen;
 
 % close down bitsi/logfile/audio/screen.
@@ -582,7 +582,7 @@ if prep.par.sound
         PsychPortAudio('Close', soundhandle(i));
     end
 end
-WaitSecs(1);
+(1);
 Screen('CloseAll');
 clear Screen
 
